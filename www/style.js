@@ -36,17 +36,27 @@ for (let i of inputStyle) {
   
 }
 
-let spanStyle = document.querySelectorAll("span");
-for (let i of spanStyle) {
-  i.style.marginLeft = "15px"
-  i.style.border ="1px solid #6e6659"
-  i.style.padding = "5px 20px ";
-  i.style.backgroundColor = "#eefceb"
-  i.style.color = "#102d31";
-  i.style.cursor = "pointer"
-  i.style.fontSize = "25px";
-  i.style.borderRadius = "2px";
-}
+
+let plusTeleStyle = document.querySelector("#plusTele");
+  plusTeleStyle.style.marginLeft = "15px"
+  plusTeleStyle.style.border ="1px solid #6e6659"
+  plusTeleStyle.style.padding = "5px 20px ";
+  plusTeleStyle.style.backgroundColor = "#eefceb"
+  plusTeleStyle.style.color = "#102d31";
+  plusTeleStyle.style.cursor = "pointer"
+  plusTeleStyle.style.fontSize = "25px";
+  plusTeleStyle.style.borderRadius = "2px";
+
+
+  let plusEmailStyle = document.querySelector("#plusEmail");
+  plusEmailStyle.style.marginLeft = "15px"
+  plusEmailStyle.style.border ="1px solid #6e6659"
+  plusEmailStyle.style.padding = "5px 20px ";
+  plusEmailStyle.style.backgroundColor = "#eefceb"
+  plusEmailStyle.style.color = "#102d31";
+  plusEmailStyle.style.cursor = "pointer"
+  plusEmailStyle.style.fontSize = "25px";
+  plusEmailStyle.style.borderRadius = "2px";
 
 let resultStyle = document.getElementById('resultdiv');
 resultStyle.style.width='500px'

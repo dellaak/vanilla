@@ -8,13 +8,16 @@ class Contacts extends Index {
     this.contactWrapper.id = "contactWrapper";
 
     this.renderContacts();
-    this.setAttr();
+
   }
 
-  setAttr() {}
 
-  renderContacts = async () => {
-    this.contacts = await JSON.parse(localStorage.contacts);
+
+  renderContacts = async (newContacts) => {
+    if(newContacts){
+      this.contacts=newContacts
+    }
+
     this.bodyContainer.appendChild(this.contactWrapper);
     this.contactWrapper.innerHTML = "";
     this.contacts.reverse().map(i => {
@@ -33,7 +36,7 @@ class Contacts extends Index {
       this.singleContact.style.alignItems = "flex-start";
       this.singleContact.style.margin = "20px";
       this.singleContact.style.justifyContent = "space-between";
-      this.singleContact.style.padding = "10px";
+      this.singleContact.style.padding = "10px 50px";
       this.singleContact.style.color = "#eefceb";
       this.singleContact.style.textShadow = "0.07em 0.07em 0 rgba(0,0,0,.1)";
       this.singleContact.style.textTransform = "uppercase";

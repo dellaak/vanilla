@@ -4,11 +4,15 @@ class Index {
       name: "",
       telephone: [],
       email: [],
-      id: ""
+      removedEmails:[],
+      removedTelephone:[],
+      addedEmail:[],
+      addedTelephone:[],
+      id: "",
+      version: []
     };
 
     this.contacts;
-
     try {
       this.contacts = JSON.parse(localStorage.contacts);
     } catch (e) {
@@ -18,6 +22,9 @@ class Index {
     this.contacts.save = function() {
       localStorage.contacts = JSON.stringify(this);
     };
+
+    this.copyOfContacts=[...this.contacts]
+ 
   }
 
   createDom = () => {
@@ -79,7 +86,8 @@ class Index {
 
     this.eventListners();
     this.setAttr();
-    this.contactClass = new Contacts();
+
+    this.contactClass = new Contacts(this.copyOfContacts);
   };
 
   setAttr() {
@@ -111,6 +119,7 @@ class Index {
   }
 
   eventListners() {
+    this.selectedPerson;
     window.addEventListener("keyup", e => {
       if (e.target.closest("#inputname")) {
         let val = this.newContactInputName.value;
@@ -119,6 +128,14 @@ class Index {
     });
 
     window.addEventListener("mousedown", e => {
+      let persondiv = document.querySelectorAll(".contactDiv");
+      for (let i of persondiv) {
+        if (e.target === i) {
+         this.selectedPerson=e.target.id
+          new Person(e.target.id).createDomer();
+        }
+      }
+
       if (e.target.closest("#plusTele")) {
         let val = this.newContactInputTelephone.value;
         if (val.match(/^\d+$/) && val.length > 4) {
@@ -140,6 +157,11 @@ class Index {
       }
 
       if (e.target.closest("button")) {
+        if(e.target.closest("#saveEditButton")){
+
+          new Person().saveEditFields(this.selectedPerson);
+         return
+        }
         let name = this.newContactInputName.value;
         if (name.length > 2) {
           this.savePerson(name);
@@ -148,12 +170,24 @@ class Index {
         }
       }
 
-      let test = document.querySelectorAll(".contactDiv");
-      for (let i of test) {
-        if (e.target === i) {
-          new Person(e.target.id);
-        }
+
+      if (e.target.closest("#editName")) {
+       
+        this.editPerson(e.target.getAttribute("data"));
       }
+
+
+      if (e.target.closest("#addTele")) {
+       
+        new Person().addInputFieldTele(e.target.getAttribute("data"));
+      }
+
+      if (e.target.closest("#addEmail")) {
+      
+        new Person().addInputFieldEmail(e.target.getAttribute("data"));
+      }
+
+    
     });
   }
 
@@ -187,12 +221,25 @@ class Index {
     });
   }
 
+  deleteItems() {
+   
+
+  }
+
+  editPerson(name){
+    new Person().editName(name);
+  }
+
   async savePerson(name) {
+    let version =[{name:name,email:this.person.email,telephone:this.person.telephone}]
     this.person.name = name;
     this.person.id = name;
+    this.person.version.push(version)
     this.contacts.push(this.person);
+    this.copyOfContacts=[...this.contacts]
+  this.person.version.push()
     await this.contacts.save();
-    
+
 
     this.newContactInputName.value = "";
     this.newContactInputEmail.value = "";
@@ -204,9 +251,14 @@ class Index {
       name: "",
       telephone: [],
       email: [],
-      id: ""
+      removedEmails:[],
+      removedTelephone:[],
+      addedEmail:[],
+      addedTelephone:[],
+      id: "",
+      version: []
     };
 
-    this.contactClass.renderContacts();
+    this.contactClass.renderContacts(this.copyOfContacts);
   }
 }
