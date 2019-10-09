@@ -18,6 +18,8 @@ class Contacts extends Index {
       this.contacts=newContacts
     }
 
+    
+
     this.bodyContainer.appendChild(this.contactWrapper);
     this.contactWrapper.innerHTML = "";
     this.contacts.reverse().map(i => {

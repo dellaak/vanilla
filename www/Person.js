@@ -1,25 +1,27 @@
+let saveEditperson;
+
 class Person extends Index {
   constructor(person) {
     super();
 
     this.singlePerson = person;
-    this.saveEditperson = {
-      name: "",
-      telephone: [],
-      email: [],
-      removedEmails: [],
-      removedTelephone: [],
-      addedEmail: [],
-      addedTelephone: [],
-      id: "",
-      version: []
-    };
+
+for (let i of this.contacts) {
+  if (person === i.id) saveEditperson= i;
+}
+
+
   }
 
   createDomer() {
+    
     this.formWrap = document.querySelector("#wrapper");
     this.contactWrap = document.querySelector("#contactWrapper");
     this.contactWrap.innerHTML = "";
+    this.topPersonWrap = document.createElement('div')
+    this.secondPersonWrap = document.createElement('div')
+    this.savebuttonwrap = document.createElement('div')
+    this.bottomdiv = document.createElement('div')
     this.name = document.createElement("p");
     this.clickText = document.createElement("h1");
     this.ullistTele = document.createElement("ul");
@@ -33,52 +35,79 @@ class Person extends Index {
     this.addTelephone = document.createElement("span");
     this.addEmail = document.createElement("span");
     this.addTele = document.createElement("span");
+    this.goBack = document.createElement("span");
     this.formWrap.className = "editmode";
 
     this.holders = [this.editNameDiv, this.editTeleDiv, this.editEmailDiv];
 
+
+    this.editNameDiv.id = "nameDiv";
     this.holders.map(i => {
+
+     if(i===this.editNameDiv){
+      i.style.alignItems = "flex-start";
       i.style.display = "flex";
       i.style.flexDirection = "column";
-      i.style.justifyContent = "space-between";
-      i.style.alignItems = "center";
       i.style.backgroundColor = "#6e6659";
       i.style.margin = "10px";
       i.style.padding = "20px";
+     }else{
+      i.style.display = "flex";
+      i.style.flexDirection = "column";
+      i.style.alignItems = "flex-end";
+      i.style.backgroundColor = "#6e6659";
+      i.style.margin = "10px";
+      i.style.padding = "20px";
+     }
+   
+      
     });
 
+    this.goBack.id = "goBack"
     this.editNameButton.id = "editName";
     this.editNameButton.innerHTML = "✎";
+    this.name.id="nameTag"
     this.editEmailDiv.id = "emailDiv";
     this.editTeleDiv.id = "teleDiv";
-    this.editNameDiv.id = "nameDiv";
+   
     this.saveEditButton.innerHTML = "SPARA ÄNDRINGAR";
     this.addEmail.innerHTML = "+Lägg till email";
+    this.goBack.innerHTML = "<----";
     this.addEmail.id = "addEmail";
     this.addTele.innerHTML = "+Lägg till nummer";
     this.addTele.id = "addTele";
 
     //APPEND
     this.formWrap.innerHTML = "";
-    this.formWrap.appendChild(this.clickText);
-    this.clickText.innerHTML = "✎ Klicka på elementet som du vill redigera";
-    this.formWrap.appendChild(this.editNameDiv);
-    this.formWrap.appendChild(this.editTeleDiv);
-    this.formWrap.appendChild(this.editEmailDiv);
-
-    this.formWrap.appendChild(this.name);
-    this.formWrap.appendChild(this.ullistTele);
+    this.formWrap.appendChild(this.topPersonWrap)
+    this.formWrap.appendChild(this.secondPersonWrap);
+    this.formWrap.appendChild(this.savebuttonwrap);
+    this.formWrap.appendChild(this.bottomdiv);
+    this.topPersonWrap.appendChild(this.goBack)
+    this.topPersonWrap.appendChild(this.clickText);
+    this.clickText.innerHTML = "✎ Redigera kontakt";
+    this.secondPersonWrap.appendChild(this.editNameDiv);
+    this.secondPersonWrap.appendChild(this.editTeleDiv);
+    this.secondPersonWrap.appendChild(this.editEmailDiv);
+    this.secondPersonWrap.appendChild(this.name);
+    this.secondPersonWrap.appendChild(this.ullistTele);
     this.editNameDiv.appendChild(this.name);
     this.editEmailDiv.appendChild(this.addEmail);
     this.editTeleDiv.appendChild(this.addTele);
     this.editTeleDiv.appendChild(this.ullistTele);
     this.editEmailDiv.appendChild(this.ullistEmail);
     this.editNameDiv.appendChild(this.editNameButton);
-    this.formWrap.appendChild(this.saveEditButton);
+    this.savebuttonwrap.appendChild(this.saveEditButton);
     // editTeleButton.setAttribute("data", i);
     this.saveEditButton.id = "saveEditButton";
+    this.bottomdiv.id = "bottomDiv"
 
     //STYLING
+    this.topPersonWrap.style.textAlign="center"
+    this.secondPersonWrap.style.display="flex"
+    this.secondPersonWrap.style.flexDirection="row"
+    this.secondPersonWrap.style.flexWrap="wrap"
+    this.secondPersonWrap.style.justifyContent="center"
     this.formWrap.style.display = "flex";
     this.formWrap.style.flexDirection = "column";
     this.formWrap.style.backgroundColor = "#264e58";
@@ -133,9 +162,32 @@ class Person extends Index {
     //END STYLING
 
     this.setValues();
+    
   }
 
-  deleteItems() {}
+
+ 
+
+  deleteTele(data) {
+
+    let deleteitem = document.getElementsByClassName(`${data}`);
+    deleteitem[0].innerHTML = "";
+    saveEditperson.removedTelephone.push(data)
+    // saveEditperson.telephone.splice(data,1)
+  let a = saveEditperson.telephone.indexOf(data)
+saveEditperson.telephone.splice(a,1)
+  
+  }
+
+  deleteEmail(data) {
+
+    let deleteitem = document.getElementsByClassName(`${data}`);
+    deleteitem[0].innerHTML = "";
+   saveEditperson.removedEmails.push(data)
+   let a = saveEditperson.email.indexOf(data)
+   saveEditperson.email.splice(a,1)
+  
+  }
 
   editName(name) {
     let nameDiv = document.querySelector("#nameDiv");
@@ -146,7 +198,7 @@ class Person extends Index {
 
     nameDiv.innerHTML = "";
     nameDiv.appendChild(this.editInputName);
-    this.editInputName.placeholder = "Redigera " + name;
+    this.editInputName.placeholder = "Redigera namn"
 
     // let name = document.querySelector('p')
     // name.innerHTML=`👤` + "Namn:"
@@ -156,7 +208,7 @@ class Person extends Index {
     let selected = document.querySelector("#addTele");
     let teleDiv = document.querySelector("#teleDiv");
     this.editInputTelephone = document.createElement("input");
-    this.editInputTelephone.setAttribute("id", "inputTelephone");
+    this.editInputTelephone.setAttribute("class", "inputTelephone");
     this.editInputTelephone.style.border = "1px solid none";
     this.editInputTelephone.style.borderWidth = "0 0 2px";
     this.editInputTelephone.style.backgroundColor = "rgba(255,255,255,0.6";
@@ -170,7 +222,7 @@ class Person extends Index {
   }
 
   addInputFieldEmail() {
-    let selected = document.querySelector("#addTele");
+    let selected = document.querySelector("#addEmail");
     this.editInputEmail = document.createElement("input");
     this.editInputEmail.setAttribute("id", "inputEmail");
     this.editInputEmail.style.border = "1px solid none";
@@ -193,18 +245,27 @@ class Person extends Index {
 
     let selected = document.querySelectorAll("input");
     for (let inputs of selected) {
-      if (inputs.id === "inputName") {
-        this.editThisPerson.name = inputs.value;
+      
+      if (inputs.id === "inputName") { 
+        if(inputs.value !== saveEditperson.name && inputs.value.length>2){
+          saveEditperson.oldNames.push(saveEditperson.name)
+        }
+      saveEditperson.name = inputs.value;  
+    }
+      if (inputs.className === "inputTelephone" && inputs.value.length>2) {
+        saveEditperson.telephone.push(inputs.value);
+        saveEditperson.addedTelephone.push(inputs.value);
       }
-      if (inputs.id === "inputTelephone") {
-        this.editThisPerson.telephone.push(inputs.value);
-        this.editThisPerson.addedTelephone.push(inputs.value);
-      }
-      if (inputs.id === "inputEmail") {
-        console.log(inputs.value, "e");
+      if (inputs.id === "inputEmail" && inputs.value.length>2) {
+        saveEditperson.email.push(inputs.value);
+        saveEditperson.addedEmail.push(inputs.value);
       }
     }
-    console.log(this.editThisPerson);
+    
+ 
+    this.saveEditedPerson(saveEditperson)
+   
+
   }
 
   async setValues() {
@@ -215,10 +276,11 @@ class Person extends Index {
       }
     }
 
+    let nametext = document.querySelector("#nameTag")
     let { name, telephone, email } = this.person;
     this.name.innerHTML = `👤` + "Namn:" + name;
     this.name.setAttribute("data", name);
-    this.editNameButton.setAttribute("data", name);
+    nametext.setAttribute("value", name);
 
     telephone.map(i => {
       let list = document.createElement("li");

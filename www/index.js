@@ -1,13 +1,15 @@
+
 class Index {
   constructor() {
     this.person = {
       name: "",
       telephone: [],
       email: [],
-      removedEmails:[],
-      removedTelephone:[],
-      addedEmail:[],
-      addedTelephone:[],
+      oldNames: [],
+      removedEmails: [],
+      removedTelephone: [],
+      addedEmail: [],
+      addedTelephone: [],
       id: "",
       version: []
     };
@@ -23,8 +25,14 @@ class Index {
       localStorage.contacts = JSON.stringify(this);
     };
 
-    this.copyOfContacts=[...this.contacts]
- 
+    this.copyOfContacts = [...this.contacts];
+  }
+
+
+  resetDom(){
+    let body = document.querySelector("body");
+    body.innerHTML=''
+    this.createDom()
   }
 
   createDom = () => {
@@ -86,8 +94,8 @@ class Index {
 
     this.eventListners();
     this.setAttr();
-
     this.contactClass = new Contacts(this.copyOfContacts);
+    new Style()
   };
 
   setAttr() {
@@ -131,10 +139,17 @@ class Index {
       let persondiv = document.querySelectorAll(".contactDiv");
       for (let i of persondiv) {
         if (e.target === i) {
-         this.selectedPerson=e.target.id
-          new Person(e.target.id).createDomer();
+          this.selectedPerson = e.target.id;
+          new Person(e.target.id).createDomer()
+          new History().renderHistory(e.target.id)
         }
       }
+
+      if (e.target.closest("#goBack")) {
+      
+        this.resetDom()
+       
+        }
 
       if (e.target.closest("#plusTele")) {
         let val = this.newContactInputTelephone.value;
@@ -157,10 +172,14 @@ class Index {
       }
 
       if (e.target.closest("button")) {
-        if(e.target.closest("#saveEditButton")){
-
+        if (e.target.closest("#saveEditButton")) {
           new Person().saveEditFields(this.selectedPerson);
-         return
+          return;
+        }
+
+        if (e.target.closest(".setActiveContact")) {
+          console.log('knapp')
+          return;
         }
         let name = this.newContactInputName.value;
         if (name.length > 2) {
@@ -170,24 +189,25 @@ class Index {
         }
       }
 
+      if (e.target.closest(".deleteTele")) {
+        new Person().deleteTele(e.target.getAttribute("data"));
+      }
+
+      if (e.target.closest(".deleteEmail")) {
+        new Person().deleteEmail(e.target.getAttribute("data"));
+      }
 
       if (e.target.closest("#editName")) {
-       
         this.editPerson(e.target.getAttribute("data"));
       }
 
-
       if (e.target.closest("#addTele")) {
-       
-        new Person().addInputFieldTele(e.target.getAttribute("data"));
+        new Person().addInputFieldTele();
       }
 
       if (e.target.closest("#addEmail")) {
-      
-        new Person().addInputFieldEmail(e.target.getAttribute("data"));
+        new Person().addInputFieldEmail();
       }
-
-    
     });
   }
 
@@ -221,25 +241,42 @@ class Index {
     });
   }
 
-  deleteItems() {
-   
-
-  }
-
-  editPerson(name){
+  editPerson(name) {
     new Person().editName(name);
   }
 
+  async saveEditedPerson(data) {
+    let version = [
+      { name: data.name, email: data.email, telephone: data.telephone }
+    ];
+    this.person = { ...data };
+    this.person.version.push(version);
+   
+
+    let id;
+    this.contacts.map(i => {
+      if (i.id === this.person.id) return (id = this.contacts.indexOf(i));
+    });
+
+    this.contacts.splice(id, 1);
+    this.contacts.push(data);
+
+    await this.contacts.save();
+    this.copyOfContacts = [...this.contacts];
+    console.log(this.copyOfContacts);
+  }
+
   async savePerson(name) {
-    let version =[{name:name,email:this.person.email,telephone:this.person.telephone}]
+    let version = [
+      { name: name, email: this.person.email, telephone: this.person.telephone }
+    ];
     this.person.name = name;
     this.person.id = name;
-    this.person.version.push(version)
+    this.person.version.push(version);
     this.contacts.push(this.person);
-    this.copyOfContacts=[...this.contacts]
-  this.person.version.push()
-    await this.contacts.save();
+    this.copyOfContacts = [...this.contacts];
 
+    await this.contacts.save();
 
     this.newContactInputName.value = "";
     this.newContactInputEmail.value = "";
@@ -251,10 +288,10 @@ class Index {
       name: "",
       telephone: [],
       email: [],
-      removedEmails:[],
-      removedTelephone:[],
-      addedEmail:[],
-      addedTelephone:[],
+      removedEmails: [],
+      removedTelephone: [],
+      addedEmail: [],
+      addedTelephone: [],
       id: "",
       version: []
     };
