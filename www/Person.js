@@ -223,8 +223,9 @@ saveEditperson.telephone.splice(a,1)
 
   addInputFieldEmail() {
     let selected = document.querySelector("#addEmail");
+    let emailDiv = document.querySelector("#emailDiv");
     this.editInputEmail = document.createElement("input");
-    this.editInputEmail.setAttribute("id", "inputEmail");
+    this.editInputEmail.setAttribute("class", "inputEmail");
     this.editInputEmail.style.border = "1px solid none";
     this.editInputEmail.style.borderWidth = "0 0 2px";
     this.editInputEmail.style.backgroundColor = "rgba(255,255,255,0.6";
@@ -256,7 +257,7 @@ saveEditperson.telephone.splice(a,1)
         saveEditperson.telephone.push(inputs.value);
         saveEditperson.addedTelephone.push(inputs.value);
       }
-      if (inputs.id === "inputEmail" && inputs.value.length>2) {
+      if (inputs.className === "inputEmail" && inputs.value.length>2) {
         saveEditperson.email.push(inputs.value);
         saveEditperson.addedEmail.push(inputs.value);
       }

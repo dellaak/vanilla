@@ -47,13 +47,13 @@ class Contacts extends Index {
 
       this.contactTeleDiv.style.display = "flex";
       this.contactTeleDiv.style.flexDirection = "column";
-      this.contactTeleDiv.style.alignItems = "center";
+      this.contactTeleDiv.style.alignItems = "flex-start";
       this.contactTeleDiv.style.Width = "100px";
 
       this.contactEmailDiv.style.display = "flex";
       this.contactEmailDiv.style.Width = "100px";
       this.contactEmailDiv.style.flexDirection = "column";
-      this.contactEmailDiv.style.alignItems = "flex-end";
+      this.contactEmailDiv.style.alignItems = "flex-start";
       //End Styling
 
       this.singleContact.setAttribute("id", i.id);

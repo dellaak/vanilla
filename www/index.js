@@ -1,4 +1,3 @@
-
 class Index {
   constructor() {
     this.person = {
@@ -13,7 +12,7 @@ class Index {
       id: "",
       version: []
     };
-
+this.eventon;
     this.contacts;
     try {
       this.contacts = JSON.parse(localStorage.contacts);
@@ -25,14 +24,15 @@ class Index {
       localStorage.contacts = JSON.stringify(this);
     };
 
-    this.copyOfContacts = [...this.contacts];
+    this.copyOfContacts = [...this.contacts]
+    
   }
 
-
-  resetDom(){
+  resetDom() {
     let body = document.querySelector("body");
-    body.innerHTML=''
-    this.createDom()
+    body.innerHTML = "";
+
+    this.createDom();
   }
 
   createDom = () => {
@@ -95,7 +95,7 @@ class Index {
     this.eventListners();
     this.setAttr();
     this.contactClass = new Contacts(this.copyOfContacts);
-    new Style()
+    new Style();
   };
 
   setAttr() {
@@ -127,7 +127,13 @@ class Index {
   }
 
   eventListners() {
+    if(this.eventon===true){
+      return
+    }
+
+    
     this.selectedPerson;
+
     window.addEventListener("keyup", e => {
       if (e.target.closest("#inputname")) {
         let val = this.newContactInputName.value;
@@ -140,34 +146,34 @@ class Index {
       for (let i of persondiv) {
         if (e.target === i) {
           this.selectedPerson = e.target.id;
-          new Person(e.target.id).createDomer()
-          new History().renderHistory(e.target.id)
+          new Person(e.target.id).createDomer();
+          new History().renderHistory(e.target.id);
         }
       }
 
+if(e.target.closest('.not-active')){
+  new History().addActive(e.target)
+}
+
       if (e.target.closest("#goBack")) {
-      
-        this.resetDom()
-       
-        }
+        this.resetDom();
+      }
 
       if (e.target.closest("#plusTele")) {
         let val = this.newContactInputTelephone.value;
         if (val.match(/^\d+$/) && val.length > 4) {
           this.addTele(val);
           this.newContactInputTelephone.value = "";
-        } else {
-          alert("Minst 5 nummer och inga bokstäver.");
         }
       }
+
+      
 
       if (e.target.closest("#plusEmail")) {
         let emailval = this.newContactInputEmail.value;
         if (emailval.length > 4) {
           this.addEmail(emailval);
           this.newContactInputEmail.value = "";
-        } else {
-          alert("Minst 5 tecken");
         }
       }
 
@@ -176,39 +182,35 @@ class Index {
           new Person().saveEditFields(this.selectedPerson);
           return;
         }
+      }
 
-        if (e.target.closest(".setActiveContact")) {
-          console.log('knapp')
-          return;
-        }
         let name = this.newContactInputName.value;
         if (name.length > 2) {
           this.savePerson(name);
-        } else {
-          alert("Minst 3 tecken");
         }
-      }
 
-      if (e.target.closest(".deleteTele")) {
-        new Person().deleteTele(e.target.getAttribute("data"));
-      }
+        if (e.target.closest(".deleteTele")) {
+          new Person().deleteTele(e.target.getAttribute("data"));
+        }
 
-      if (e.target.closest(".deleteEmail")) {
-        new Person().deleteEmail(e.target.getAttribute("data"));
-      }
+        if (e.target.closest(".deleteEmail")) {
+          new Person().deleteEmail(e.target.getAttribute("data"));
+        }
 
-      if (e.target.closest("#editName")) {
-        this.editPerson(e.target.getAttribute("data"));
-      }
+        if (e.target.closest("#editName")) {
+          this.editPerson(e.target.getAttribute("data"));
+        }
 
-      if (e.target.closest("#addTele")) {
-        new Person().addInputFieldTele();
-      }
+        if (e.target.closest("#addTele")) {
+        
+          new Person().addInputFieldTele();
+        }
 
-      if (e.target.closest("#addEmail")) {
-        new Person().addInputFieldEmail();
-      }
-    });
+        if (e.target.closest("#addEmail")) {
+          new Person().addInputFieldEmail();
+        }
+      })
+      this.eventon= true
   }
 
   addTele(val) {
@@ -251,7 +253,6 @@ class Index {
     ];
     this.person = { ...data };
     this.person.version.push(version);
-   
 
     let id;
     this.contacts.map(i => {
