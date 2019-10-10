@@ -29,6 +29,7 @@ class Contacts extends Index {
       this.ContactName = document.createElement("p");
       this.ContactTelephone = document.createElement("p");
       this.ContactEmail = document.createElement("p");
+      this.deleteButton = document.createElement("div");
 
       //Styling contactDiv
       this.singleContact.className = "contactDiv";
@@ -55,7 +56,8 @@ class Contacts extends Index {
       this.contactEmailDiv.style.flexDirection = "column";
       this.contactEmailDiv.style.alignItems = "flex-start";
       //End Styling
-
+      this.deleteButton.innerHTML='X'
+      this.deleteButton.setAttribute("class", i.id);
       this.singleContact.setAttribute("id", i.id);
 
       this.ContactName.innerHTML = `👤` + "Namn: " + i.name;
@@ -79,13 +81,13 @@ class Contacts extends Index {
       } else {
         this.ContactEmail.innerHTML = "&#128231;" + i.email;
       }
-
       this.contactWrapper.append(this.singleContact);
       this.singleContact.appendChild(this.ContactName);
       this.singleContact.appendChild(this.contactTeleDiv);
       this.singleContact.appendChild(this.contactEmailDiv);
       this.contactTeleDiv.appendChild(this.ContactTelephone);
       this.contactEmailDiv.appendChild(this.ContactEmail);
+      this.singleContact.appendChild(this.deleteButton);
     });
   };
 }

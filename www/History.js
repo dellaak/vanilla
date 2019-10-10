@@ -3,53 +3,15 @@ class History extends Index {
     super();
   }
 
-  renderAddedandRemoved(data) {
-    for (let i of this.copyOfContacts) {
-      this.versions = i.version;
-      if (i.id === data) {
-        i.addedTelephone.map(i => {
-          let addedTelephone = document.createElement("p");
-          addedTelephone.innerHTML = "+ " + i;
-          this.addedTeleDiv.append(addedTelephone);
-        });
-      }
-
-      if (i.id === data) {
-        i.removedTelephone.map(i => {
-          let removedTelephone = document.createElement("p");
-          removedTelephone.innerHTML = "- " + i;
-          this.removedTeleDiv.append(removedTelephone);
-        });
-      }
-
-      if (i.id === data) {
-        i.addedEmail.map(i => {
-          let addedEmail = document.createElement("p");
-          addedEmail.innerHTML = "+ " + i;
-          this.addedEmailDiv.append(addedEmail);
-        });
-      }
-
-      if (i.id === data) {
-        i.removedEmails.map(i => {
-          let removedEmail = document.createElement("p");
-          removedEmail.innerHTML = "- " + i;
-          this.removedEmailDiv.append(removedEmail);
-        });
-      }
-    }
-  }
-
   setAttributes(el, attrs) {
     for (var key in attrs) {
       el.setAttribute(key, attrs[key]);
     }
   }
 
-  addActive(data) {
-    console.log(data);
-    let name = data.getAttribute("data");
-    let val = data.getAttribute("value");
+  addActive(value, data) {
+    let name = data;
+    let val = value.getAttribute("value");
     let num = parseInt(val, 10);
 
     for (let i of this.contacts) {
@@ -57,46 +19,33 @@ class History extends Index {
         this.activeVersion = i;
       }
     }
-    let ng;
+    let matchedPers;
     this.activeVersion.version.reverse().map(k => {
       let h = this.activeVersion.version.indexOf(k);
-
       if (h === num) {
-        ng = k;
+        matchedPers = k;
       }
     });
 
-    console.log(ng);
+    this.activeVersion.name = matchedPers[0].name;
+    this.activeVersion.telephone = matchedPers[0].telephone;
+    this.activeVersion.email = matchedPers[0].email;
+
+    this.contactWrap = document.querySelector("#contactWrapper");
+    this.formWrap = document.querySelector("#wrapper");
+    this.contactWrap.innerHTML = "";
+
+    new Index().saveActivePerson(this.activeVersion);
+    console.log(this.activeVersion)
+    new Person(this.activeVersion).createDomer();
+    this.renderHistory(data);
   }
 
   renderHistory(data) {
     this.contactWrap = document.querySelector("#contactWrapper");
-    this.bottomDiv = document.querySelector("#bottomDiv");
+    this.contactWrap.innerHTML=''
     this.oldNameDiv = document.querySelector("#nameDiv");
-    this.addedTeleDiv = document.createElement("div");
-    this.removedTeleDiv = document.createElement("div");
-    this.addedEmailDiv = document.createElement("div");
-    this.removedEmailDiv = document.createElement("div");
     this.ul = document.createElement("ul");
-    this.bottomDiv.appendChild(this.addedTeleDiv);
-    this.bottomDiv.appendChild(this.removedTeleDiv);
-    this.bottomDiv.appendChild(this.addedEmailDiv);
-    this.bottomDiv.appendChild(this.removedEmailDiv);
-
-    //STYLING
-    this.bottomDiv.style.display = "flex";
-    this.bottomDiv.style.width = "100%";
-    this.bottomDiv.style.justifyContent = "space-around";
-
-    //END
-
-    //   if (i.id === data) {
-    //     i.oldNames.map(i => {
-    //       let oldName = document.createElement("p");
-    //       oldName.innerHTML = i;
-    //       this.oldNameDiv.append(oldName);
-    //     });
-    //   }
 
     this.activeContact;
     for (let i of this.copyOfContacts) {
@@ -150,13 +99,14 @@ class History extends Index {
           teleDiv.appendChild(textTele);
           emailDiv.appendChild(textEmail);
           let objindex = this.activeContact.version.indexOf(i);
+
           if (active) {
             (div.className = "active"),
               this.setAttributes(div, {
                 value: `${objindex}`,
                 data: `${this.activeContact.name}`
               });
-            div.style.backgroundColor = "grey";
+            div.style.backgroundColor = "lightgrey";
           } else {
             div.className = "not-active";
             this.setAttributes(div, {
@@ -164,6 +114,73 @@ class History extends Index {
               data: `${this.activeContact.name}`
             });
           }
+        });
+      }
+    }
+  }
+
+  renderAddedandRemoved(data) {
+    console.log(data);
+    this.bottomDiv = document.querySelector("#bottomDiv");
+    this.bottomDiv.innerHTML = "";
+    this.addedTeleDiv = document.createElement("div");
+    this.removedTeleDiv = document.createElement("div");
+    this.addedEmailDiv = document.createElement("div");
+    this.removedEmailDiv = document.createElement("div");
+    let atText = document.createElement("p");
+    let rtText = document.createElement("p");
+    let aeText = document.createElement("p");
+    let reText = document.createElement("p");
+    this.addedTeleDiv.appendChild(atText);
+    this.removedTeleDiv.appendChild(rtText);
+    this.addedEmailDiv.appendChild(aeText);
+    this.removedEmailDiv.appendChild(reText);
+    atText.innerHTML = "Tillagda Nummer";
+    rtText.innerHTML = "Borttagna Nummer";
+    aeText.innerHTML = "Tillagda Email";
+    reText.innerHTML = "Borttagna Email";
+    this.bottomDiv.appendChild(this.addedTeleDiv);
+    this.bottomDiv.appendChild(this.removedTeleDiv);
+    this.bottomDiv.appendChild(this.addedEmailDiv);
+    this.bottomDiv.appendChild(this.removedEmailDiv);
+
+    this.ul = document.createElement("ul");
+    //STYLING
+    this.bottomDiv.style.display = "flex";
+    this.bottomDiv.style.width = "100%";
+    this.bottomDiv.style.justifyContent = "space-around";
+
+    //END
+    for (let i of this.copyOfContacts) {
+      if (i.id === data) {
+        i.addedTelephone.map(i => {
+          let addedTelephone = document.createElement("p");
+          addedTelephone.innerHTML = "+ " + i;
+          this.addedTeleDiv.append(addedTelephone);
+        });
+      }
+
+      if (i.id === data) {
+        i.removedTelephone.map(i => {
+          let removedTelephone = document.createElement("p");
+          removedTelephone.innerHTML = "- " + i;
+          this.removedTeleDiv.append(removedTelephone);
+        });
+      }
+
+      if (i.id === data) {
+        i.addedEmail.map(i => {
+          let addedEmail = document.createElement("p");
+          addedEmail.innerHTML = "+ " + i;
+          this.addedEmailDiv.append(addedEmail);
+        });
+      }
+
+      if (i.id === data) {
+        i.removedEmails.map(i => {
+          let removedEmail = document.createElement("p");
+          removedEmail.innerHTML = "- " + i;
+          this.removedEmailDiv.append(removedEmail);
         });
       }
     }

@@ -5,30 +5,26 @@ class Person extends Index {
     super();
 
     this.singlePerson = person;
-
-for (let i of this.contacts) {
-  if (person === i.id) saveEditperson= i;
-}
-
-
+    for (let i of this.contacts) {
+      if (person === i.id) saveEditperson = i;
+    }
   }
 
   createDomer() {
-    
     this.formWrap = document.querySelector("#wrapper");
     this.contactWrap = document.querySelector("#contactWrapper");
     this.contactWrap.innerHTML = "";
-    this.topPersonWrap = document.createElement('div')
-    this.secondPersonWrap = document.createElement('div')
-    this.savebuttonwrap = document.createElement('div')
-    this.bottomdiv = document.createElement('div')
+    this.topPersonWrap = document.createElement("div");
+    this.secondPersonWrap = document.createElement("div");
+    this.savebuttonwrap = document.createElement("div");
+    this.bottomdiv = document.createElement("div");
     this.name = document.createElement("p");
     this.clickText = document.createElement("h1");
-    this.ullistTele = document.createElement("ul");
-    this.ullistEmail = document.createElement("ul");
     this.editNameDiv = document.createElement("div");
     this.editTeleDiv = document.createElement("div");
     this.editEmailDiv = document.createElement("div");
+    this.ullistTele = document.createElement("ul");
+    this.ullistEmail = document.createElement("ul");
     this.lowerEditBox = document.createElement("div");
     this.editNameButton = document.createElement("div");
     this.saveEditButton = document.createElement("button");
@@ -40,36 +36,32 @@ for (let i of this.contacts) {
 
     this.holders = [this.editNameDiv, this.editTeleDiv, this.editEmailDiv];
 
-
     this.editNameDiv.id = "nameDiv";
     this.holders.map(i => {
-
-     if(i===this.editNameDiv){
-      i.style.alignItems = "flex-start";
-      i.style.display = "flex";
-      i.style.flexDirection = "column";
-      i.style.backgroundColor = "#6e6659";
-      i.style.margin = "10px";
-      i.style.padding = "20px";
-     }else{
-      i.style.display = "flex";
-      i.style.flexDirection = "column";
-      i.style.alignItems = "flex-end";
-      i.style.backgroundColor = "#6e6659";
-      i.style.margin = "10px";
-      i.style.padding = "20px";
-     }
-   
-      
+      if (i === this.editNameDiv) {
+        i.style.alignItems = "flex-start";
+        i.style.display = "flex";
+        i.style.flexDirection = "column";
+        i.style.backgroundColor = "#6e6659";
+        i.style.margin = "10px";
+        i.style.padding = "20px";
+      } else {
+        i.style.display = "flex";
+        i.style.flexDirection = "column";
+        i.style.alignItems = "flex-end";
+        i.style.backgroundColor = "#6e6659";
+        i.style.margin = "10px";
+        i.style.padding = "20px";
+      }
     });
 
-    this.goBack.id = "goBack"
+    this.goBack.id = "goBack";
     this.editNameButton.id = "editName";
     this.editNameButton.innerHTML = "✎";
-    this.name.id="nameTag"
+    this.name.id = "nameTag";
     this.editEmailDiv.id = "emailDiv";
     this.editTeleDiv.id = "teleDiv";
-   
+
     this.saveEditButton.innerHTML = "SPARA ÄNDRINGAR";
     this.addEmail.innerHTML = "+Lägg till email";
     this.goBack.innerHTML = "<----";
@@ -79,11 +71,11 @@ for (let i of this.contacts) {
 
     //APPEND
     this.formWrap.innerHTML = "";
-    this.formWrap.appendChild(this.topPersonWrap)
+    this.formWrap.appendChild(this.topPersonWrap);
     this.formWrap.appendChild(this.secondPersonWrap);
     this.formWrap.appendChild(this.savebuttonwrap);
     this.formWrap.appendChild(this.bottomdiv);
-    this.topPersonWrap.appendChild(this.goBack)
+    this.topPersonWrap.appendChild(this.goBack);
     this.topPersonWrap.appendChild(this.clickText);
     this.clickText.innerHTML = "✎ Redigera kontakt";
     this.secondPersonWrap.appendChild(this.editNameDiv);
@@ -94,20 +86,20 @@ for (let i of this.contacts) {
     this.editNameDiv.appendChild(this.name);
     this.editEmailDiv.appendChild(this.addEmail);
     this.editTeleDiv.appendChild(this.addTele);
-    this.editTeleDiv.appendChild(this.ullistTele);
-    this.editEmailDiv.appendChild(this.ullistEmail);
+    // this.editTeleDiv.appendChild(this.ullistTele);
+    // this.editEmailDiv.appendChild(this.ullistEmail);
     this.editNameDiv.appendChild(this.editNameButton);
     this.savebuttonwrap.appendChild(this.saveEditButton);
     // editTeleButton.setAttribute("data", i);
     this.saveEditButton.id = "saveEditButton";
-    this.bottomdiv.id = "bottomDiv"
+    this.bottomdiv.id = "bottomDiv";
 
     //STYLING
-    this.topPersonWrap.style.textAlign="center"
-    this.secondPersonWrap.style.display="flex"
-    this.secondPersonWrap.style.flexDirection="row"
-    this.secondPersonWrap.style.flexWrap="wrap"
-    this.secondPersonWrap.style.justifyContent="center"
+    this.topPersonWrap.style.textAlign = "center";
+    this.secondPersonWrap.style.display = "flex";
+    this.secondPersonWrap.style.flexDirection = "row";
+    this.secondPersonWrap.style.flexWrap = "wrap";
+    this.secondPersonWrap.style.justifyContent = "center";
     this.formWrap.style.display = "flex";
     this.formWrap.style.flexDirection = "column";
     this.formWrap.style.backgroundColor = "#264e58";
@@ -162,31 +154,23 @@ for (let i of this.contacts) {
     //END STYLING
 
     this.setValues();
-    
   }
 
-
- 
-
   deleteTele(data) {
-
     let deleteitem = document.getElementsByClassName(`${data}`);
     deleteitem[0].innerHTML = "";
-    saveEditperson.removedTelephone.push(data)
+    saveEditperson.removedTelephone.push(data);
     // saveEditperson.telephone.splice(data,1)
-  let a = saveEditperson.telephone.indexOf(data)
-saveEditperson.telephone.splice(a,1)
-  
+    let a = saveEditperson.telephone.indexOf(data);
+    saveEditperson.telephone.splice(a, 1);
   }
 
   deleteEmail(data) {
-
     let deleteitem = document.getElementsByClassName(`${data}`);
     deleteitem[0].innerHTML = "";
-   saveEditperson.removedEmails.push(data)
-   let a = saveEditperson.email.indexOf(data)
-   saveEditperson.email.splice(a,1)
-  
+    saveEditperson.removedEmails.push(data);
+    let a = saveEditperson.email.indexOf(data);
+    saveEditperson.email.splice(a, 1);
   }
 
   editName(name) {
@@ -198,7 +182,7 @@ saveEditperson.telephone.splice(a,1)
 
     nameDiv.innerHTML = "";
     nameDiv.appendChild(this.editInputName);
-    this.editInputName.placeholder = "Redigera namn"
+    this.editInputName.placeholder = "Redigera namn";
 
     // let name = document.querySelector('p')
     // name.innerHTML=`👤` + "Namn:"
@@ -246,44 +230,42 @@ saveEditperson.telephone.splice(a,1)
 
     let selected = document.querySelectorAll("input");
     for (let inputs of selected) {
-      
-      if (inputs.id === "inputName") { 
-        if(inputs.value !== saveEditperson.name && inputs.value.length>2){
-          saveEditperson.oldNames.push(saveEditperson.name)
+      if (inputs.id === "inputName") {
+        if (inputs.value !== saveEditperson.name && inputs.value.length > 2) {
+          saveEditperson.oldNames.push(saveEditperson.name);
         }
-      saveEditperson.name = inputs.value;  
-    }
-      if (inputs.className === "inputTelephone" && inputs.value.length>2) {
+        saveEditperson.name = inputs.value;
+      }
+      if (inputs.className === "inputTelephone" && inputs.value.length > 2) {
         saveEditperson.telephone.push(inputs.value);
         saveEditperson.addedTelephone.push(inputs.value);
       }
-      if (inputs.className === "inputEmail" && inputs.value.length>2) {
+      if (inputs.className === "inputEmail" && inputs.value.length > 2) {
         saveEditperson.email.push(inputs.value);
         saveEditperson.addedEmail.push(inputs.value);
       }
     }
-    
- 
-    this.saveEditedPerson(saveEditperson)
-   
 
+    this.saveEditedPerson(saveEditperson);
+    new History().renderHistory(saveEditperson.id);
+   
+  
   }
 
   async setValues() {
     this.person;
     for (let i of this.contacts) {
-      if (i.id === this.singlePerson) {
+      if (i.id === this.singlePerson.id || i.id===this.singlePerson) {
         this.person = i;
       }
     }
-
-    let nametext = document.querySelector("#nameTag")
+    let nametext = document.querySelector("#nameTag");
     let { name, telephone, email } = this.person;
     this.name.innerHTML = `👤` + "Namn:" + name;
     this.name.setAttribute("data", name);
     nametext.setAttribute("value", name);
 
-    telephone.map(i => {
+   telephone.map(i => {
       let list = document.createElement("li");
       list.style.display = "flex";
       list.style.alignItems = "center";
@@ -301,6 +283,8 @@ saveEditperson.telephone.splice(a,1)
       list.appendChild(text);
       list.appendChild(deleteTeleButton);
       this.ullistTele.appendChild(list);
+
+
     });
 
     email.map((i, k) => {
@@ -324,7 +308,10 @@ saveEditperson.telephone.splice(a,1)
       list.appendChild(deleteEmailButton);
       list.appendChild(editEmailButton);
       this.ullistEmail.appendChild(list);
+
     });
+    this.editTeleDiv.appendChild(this.ullistTele);
+    this.editEmailDiv.appendChild(this.ullistEmail);
   }
 }
 

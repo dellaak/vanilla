@@ -12,7 +12,7 @@ class Index {
       id: "",
       version: []
     };
-this.eventon;
+    this.eventon;
     this.contacts;
     try {
       this.contacts = JSON.parse(localStorage.contacts);
@@ -24,8 +24,7 @@ this.eventon;
       localStorage.contacts = JSON.stringify(this);
     };
 
-    this.copyOfContacts = [...this.contacts]
-    
+    this.copyOfContacts = [...this.contacts];
   }
 
   resetDom() {
@@ -109,6 +108,7 @@ this.eventon;
     this.h1Text.innerHTML = "Dellas Kontakter";
     this.h3Text.innerHTML = "Skriv in uppgifter nedanför";
     this.addButton.innerHTML = "Skapa kontakt";
+    this.addButton.innerHTML = "Skapa kontakt";
     this.plusTele.innerHTML = "+";
     this.plusEmail.innerHTML = "+";
     this.nameText.innerHTML = `👤` + "Namn:";
@@ -127,11 +127,10 @@ this.eventon;
   }
 
   eventListners() {
-    if(this.eventon===true){
-      return
+    if (this.eventon === true) {
+      return;
     }
 
-    
     this.selectedPerson;
 
     window.addEventListener("keyup", e => {
@@ -146,14 +145,16 @@ this.eventon;
       for (let i of persondiv) {
         if (e.target === i) {
           this.selectedPerson = e.target.id;
-          new Person(e.target.id).createDomer();
-          new History().renderHistory(e.target.id);
+          new Person(this.selectedPerson).createDomer();
+          new History().renderHistory(this.selectedPerson);
+          new History().renderAddedandRemoved(this.selectedPerson)
         }
       }
 
-if(e.target.closest('.not-active')){
-  new History().addActive(e.target)
-}
+      if (e.target.closest(".not-active")) {
+        let idFromDiv = e.target.getAttribute('data');
+        new History().addActive(e.target,idFromDiv);
+      }
 
       if (e.target.closest("#goBack")) {
         this.resetDom();
@@ -167,8 +168,6 @@ if(e.target.closest('.not-active')){
         }
       }
 
-      
-
       if (e.target.closest("#plusEmail")) {
         let emailval = this.newContactInputEmail.value;
         if (emailval.length > 4) {
@@ -178,39 +177,37 @@ if(e.target.closest('.not-active')){
       }
 
       if (e.target.closest("button")) {
+        let name = this.newContactInputName.value;
+        if (name.length > 2) {
+          this.savePerson(name);
+        }
         if (e.target.closest("#saveEditButton")) {
           new Person().saveEditFields(this.selectedPerson);
           return;
         }
       }
 
-        let name = this.newContactInputName.value;
-        if (name.length > 2) {
-          this.savePerson(name);
-        }
+      if (e.target.closest(".deleteTele")) {
+        new Person().deleteTele(e.target.getAttribute("data"));
+      }
 
-        if (e.target.closest(".deleteTele")) {
-          new Person().deleteTele(e.target.getAttribute("data"));
-        }
+      if (e.target.closest(".deleteEmail")) {
+        new Person().deleteEmail(e.target.getAttribute("data"));
+      }
 
-        if (e.target.closest(".deleteEmail")) {
-          new Person().deleteEmail(e.target.getAttribute("data"));
-        }
+      if (e.target.closest("#editName")) {
+        this.editPerson(e.target.getAttribute("data"));
+      }
 
-        if (e.target.closest("#editName")) {
-          this.editPerson(e.target.getAttribute("data"));
-        }
+      if (e.target.closest("#addTele")) {
+        new Person().addInputFieldTele();
+      }
 
-        if (e.target.closest("#addTele")) {
-        
-          new Person().addInputFieldTele();
-        }
-
-        if (e.target.closest("#addEmail")) {
-          new Person().addInputFieldEmail();
-        }
-      })
-      this.eventon= true
+      if (e.target.closest("#addEmail")) {
+        new Person().addInputFieldEmail();
+      }
+    });
+    this.eventon = true;
   }
 
   addTele(val) {
@@ -247,6 +244,21 @@ if(e.target.closest('.not-active')){
     new Person().editName(name);
   }
 
+  async saveActivePerson(data) {
+    this.person = { ...data };
+
+    let id;
+    this.contacts.map(i => {
+      if (i.id === this.person.id) return (id = this.contacts.indexOf(i));
+    });
+
+    this.contacts.splice(id, 1);
+    this.contacts.push(data);
+    this.copyOfContacts = [...this.contacts];
+
+    await this.contacts.save();
+  }
+
   async saveEditedPerson(data) {
     let version = [
       { name: data.name, email: data.email, telephone: data.telephone }
@@ -264,8 +276,22 @@ if(e.target.closest('.not-active')){
 
     await this.contacts.save();
     this.copyOfContacts = [...this.contacts];
-    console.log(this.copyOfContacts);
   }
+
+
+deleteFromStorage(data){
+  this.person = { ...data };
+
+  let id;
+  this.contacts.map(i => {
+    if (i.id === this.person.id) return (id = this.contacts.indexOf(i));
+  });
+
+  this.contacts.splice(id, 1);
+  this.copyOfContacts = [...this.contacts];
+console.log(this.copyOfContacts)
+  // await this.contacts.save();
+}
 
   async savePerson(name) {
     let version = [
@@ -289,6 +315,7 @@ if(e.target.closest('.not-active')){
       name: "",
       telephone: [],
       email: [],
+      oldNames: [],
       removedEmails: [],
       removedTelephone: [],
       addedEmail: [],
