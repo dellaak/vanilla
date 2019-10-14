@@ -25,7 +25,6 @@ class Index {
     };
 
     this.copyOfContacts = [...this.contacts];
-
   }
 
   createDom = () => {
@@ -121,7 +120,6 @@ class Index {
     this.bodyContainer.id = "bodycontainer";
   }
 
-
   eventListners() {
     if (this.eventon === true) {
       return;
@@ -129,17 +127,16 @@ class Index {
 
     this.selectedPerson;
 
-    window.addEventListener("resize", function(){
+    window.addEventListener("resize", function() {
       let div = document.querySelectorAll(".contactDiv");
-      for(let i of div){
-      if(window.innerWidth < 700){
-        i.style.flexDirection = "column";
+      for (let i of div) {
+        if (window.innerWidth < 700) {
+          i.style.flexDirection = "column";
+        } else {
+          i.style.flexDirection = "row";
+        }
       }
-      else{
-        i.style.flexDirection = "row";
-      }
-    }
-   });
+    });
 
     window.addEventListener("keyup", e => {
       if (e.target.closest("#inputname")) {
@@ -148,11 +145,11 @@ class Index {
       }
     });
 
-    window.addEventListener("mousedown", e => {
-      let persondiv = document.querySelectorAll(".contactDiv");
-      for (let i of persondiv) {
-        if (e.target === i) {
-          this.selectedPerson = e.target.id;
+    window.addEventListener("click", e => {
+      if (e.target.closest(".contactDiv")) {
+        let persondiv = e.target.closest(".contactDiv");
+        if (persondiv.id) {
+          this.selectedPerson = persondiv.id;
           new Person(this.selectedPerson).createDomer();
           new History().renderHistory(this.selectedPerson);
           new History().renderAddedandRemoved(this.selectedPerson);
@@ -160,8 +157,13 @@ class Index {
       }
 
       if (e.target.closest(".not-active")) {
-        let idFromDiv = e.target.getAttribute("data");
-        new History().addActive(e.target, idFromDiv);
+        let persondiv = e.target.closest(".not-active");
+        persondiv = persondiv.getAttribute("data");
+        let persondiv2 = e.target.closest(".not-active");
+        persondiv2 = persondiv2.getAttribute("value");
+        if (persondiv) {
+          new History().addActive(persondiv2, persondiv);
+        }
       }
 
       if (e.target.closest("#goBack")) {
@@ -197,6 +199,7 @@ class Index {
 
       if (e.target.closest(".deleteContact")) {
         this.deleteContact(e.target.getAttribute("data"));
+        this.resetDom();
       }
 
       if (e.target.closest(".deleteTele")) {
@@ -227,6 +230,8 @@ class Index {
     this.contacts.map(i => {
       if (i.id === data) return (id = this.contacts.indexOf(i));
     });
+
+
 
     this.contacts.splice(id, 1);
     this.copyOfContacts = [...this.contacts];
@@ -301,8 +306,9 @@ class Index {
     this.contacts.splice(id, 1);
     this.contacts.push(data);
 
-    await this.contacts.save();
     this.copyOfContacts = [...this.contacts];
+    await this.contacts.save();
+
     new Person(this.person.id).createDomer();
     new History().renderHistory(this.person.id);
     new History().renderAddedandRemoved(this.person.id);
@@ -348,5 +354,7 @@ class Index {
     let body = document.querySelector("body");
     body.innerHTML = "";
     this.createDom();
+    this.copyOfContacts.reverse();
+    this.copyOfContacts = [...this.contacts];
   }
 }

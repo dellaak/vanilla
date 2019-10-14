@@ -252,6 +252,8 @@ class Person extends Index {
       }
     }
 
+
+   
     this.saveEditedPerson(saveEditperson);
     new History().renderHistory(saveEditperson.id);
    

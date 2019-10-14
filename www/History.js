@@ -11,7 +11,7 @@ class History extends Index {
 
   addActive(value, data) {
     let name = data;
-    let val = value.getAttribute("value");
+    let val = value
     let num = parseInt(val, 10);
 
     for (let i of this.contacts) {
@@ -35,11 +35,13 @@ class History extends Index {
     this.contactWrap = document.querySelector("#contactWrapper");
     this.formWrap = document.querySelector("#wrapper");
     this.contactWrap.innerHTML = "";
-
+    new Index().resetDom()
     new Index().saveActivePerson(this.activeVersion);
     new Person(this.activeVersion).createDomer();
     this.renderHistory(this.activeVersion.id);
     this.renderAddedandRemoved(this.activeVersion.id)
+ 
+    
   }
 
   renderHistory(data) {
