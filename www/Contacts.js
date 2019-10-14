@@ -13,7 +13,7 @@ class Contacts extends Index {
 
 
   async renderContacts(newContacts) {
-    console.log(newContacts)
+
     if(newContacts){
       this.contacts=newContacts
     }
@@ -46,6 +46,10 @@ class Contacts extends Index {
       this.singleContact.style.textTransform = "uppercase";
       this.singleContact.style.letterSpacing = ".1em";
       this.singleContact.style.fontSize = "14px";
+      this.singleContact.style.flexDirection="row" 
+
+   
+    
 
       this.contactTeleDiv.style.display = "flex";
       this.contactTeleDiv.style.flexDirection = "column";
@@ -94,5 +98,10 @@ class Contacts extends Index {
       this.contactEmailDiv.appendChild(this.ContactEmail);
       this.singleContact.appendChild(this.deleteButton);
     });
+   
+    
   };
+
+
+
 }

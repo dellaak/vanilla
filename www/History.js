@@ -38,7 +38,8 @@ class History extends Index {
 
     new Index().saveActivePerson(this.activeVersion);
     new Person(this.activeVersion).createDomer();
-    this.renderHistory(data);
+    this.renderHistory(this.activeVersion.id);
+    this.renderAddedandRemoved(this.activeVersion.id)
   }
 
   renderHistory(data) {
@@ -50,12 +51,12 @@ class History extends Index {
     this.activeContact;
     for (let i of this.copyOfContacts) {
       if (i.id === data) {
-        this.activeContact = i;
+        this.activeContact = i;   
       }
-  
+
       
+
       if (i.id === data) {
-        
         i.version.reverse().map(i => {
           let nameDiv = document.createElement("div");
           let teleDiv = document.createElement("div");
@@ -154,6 +155,7 @@ class History extends Index {
     this.ul = document.createElement("ul");
     //STYLING
     this.bottomDiv.style.display = "flex";
+    this.bottomDiv.style.flexWrap="wrap"
     this.bottomDiv.style.width = "100%";
     this.bottomDiv.style.justifyContent = "space-around";
 

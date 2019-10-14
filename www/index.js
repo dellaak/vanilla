@@ -25,9 +25,8 @@ class Index {
     };
 
     this.copyOfContacts = [...this.contacts];
-  }
 
- 
+  }
 
   createDom = () => {
     this.copyOfContacts = [...this.contacts];
@@ -122,12 +121,25 @@ class Index {
     this.bodyContainer.id = "bodycontainer";
   }
 
+
   eventListners() {
     if (this.eventon === true) {
       return;
     }
 
     this.selectedPerson;
+
+    window.addEventListener("resize", function(){
+      let div = document.querySelectorAll(".contactDiv");
+      for(let i of div){
+      if(window.innerWidth < 700){
+        i.style.flexDirection = "column";
+      }
+      else{
+        i.style.flexDirection = "row";
+      }
+    }
+   });
 
     window.addEventListener("keyup", e => {
       if (e.target.closest("#inputname")) {
@@ -143,17 +155,16 @@ class Index {
           this.selectedPerson = e.target.id;
           new Person(this.selectedPerson).createDomer();
           new History().renderHistory(this.selectedPerson);
-          new History().renderAddedandRemoved(this.selectedPerson)
+          new History().renderAddedandRemoved(this.selectedPerson);
         }
       }
 
       if (e.target.closest(".not-active")) {
-        let idFromDiv = e.target.getAttribute('data');
-        new History().addActive(e.target,idFromDiv);
+        let idFromDiv = e.target.getAttribute("data");
+        new History().addActive(e.target, idFromDiv);
       }
 
       if (e.target.closest("#goBack")) {
-     
         this.resetDom();
       }
 
@@ -183,10 +194,9 @@ class Index {
           return;
         }
       }
-    
-      
+
       if (e.target.closest(".deleteContact")) {
-       this.deleteContact(e.target.getAttribute('data'))
+        this.deleteContact(e.target.getAttribute("data"));
       }
 
       if (e.target.closest(".deleteTele")) {
@@ -212,22 +222,19 @@ class Index {
     this.eventon = true;
   }
 
-
-  async deleteContact(data){
-   
+  async deleteContact(data) {
     let id;
     this.contacts.map(i => {
       if (i.id === data) return (id = this.contacts.indexOf(i));
     });
-  
 
     this.contacts.splice(id, 1);
     this.copyOfContacts = [...this.contacts];
     await this.contacts.save();
 
     let contactwrap = document.querySelector("#contactWrapper");
-    contactwrap.outerHTML=""
-    new Contacts().renderContacts(this.copyOfContacts)
+    contactwrap.outerHTML = "";
+    new Contacts().renderContacts(this.copyOfContacts);
   }
 
   addTele(val) {
@@ -264,9 +271,8 @@ class Index {
     new Person().editName(name);
   }
 
-
-
   async saveActivePerson(data) {
+    data.version = data.version.reverse();
     this.person = { ...data };
 
     let id;
@@ -297,15 +303,14 @@ class Index {
 
     await this.contacts.save();
     this.copyOfContacts = [...this.contacts];
-    new Person(this.person.id).createDomer()
-    new History().renderHistory(this.person.id)
-    new History().renderAddedandRemoved(this.person.id)
+    new Person(this.person.id).createDomer();
+    new History().renderHistory(this.person.id);
+    new History().renderAddedandRemoved(this.person.id);
   }
-
 
   async savePerson(name) {
     let contactwrap = document.querySelector("#contactWrapper");
-    contactwrap.outerHTML=""
+    contactwrap.outerHTML = "";
     let version = [
       { name: name, email: this.person.email, telephone: this.person.telephone }
     ];
@@ -336,11 +341,8 @@ class Index {
       version: []
     };
 
-    
     new Contacts().renderContacts(this.copyOfContacts);
   }
-
-
 
   resetDom() {
     let body = document.querySelector("body");
