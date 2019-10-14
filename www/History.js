@@ -27,6 +27,7 @@ class History extends Index {
       }
     });
 
+
     this.activeVersion.name = matchedPers[0].name;
     this.activeVersion.telephone = matchedPers[0].telephone;
     this.activeVersion.email = matchedPers[0].email;
@@ -36,7 +37,6 @@ class History extends Index {
     this.contactWrap.innerHTML = "";
 
     new Index().saveActivePerson(this.activeVersion);
-    console.log(this.activeVersion)
     new Person(this.activeVersion).createDomer();
     this.renderHistory(data);
   }
@@ -52,8 +52,10 @@ class History extends Index {
       if (i.id === data) {
         this.activeContact = i;
       }
-
+  
+      
       if (i.id === data) {
+        
         i.version.reverse().map(i => {
           let nameDiv = document.createElement("div");
           let teleDiv = document.createElement("div");
@@ -67,6 +69,8 @@ class History extends Index {
           let textEmail = document.createElement("p");
           let { name, telephone, email } = i[0];
 
+
+        
           let sameTele =
             this.activeContact.telephone.length === telephone.length &&
             this.activeContact.telephone.every(function(element, index) {
@@ -79,7 +83,9 @@ class History extends Index {
               return element === email[index];
             });
 
-          let active = i[0].name === name && sameTele && sameEmail;
+
+       let activeName= i[0].name === this.activeContact.name
+         
           textName.innerHTML = i[0].name;
           textTele.innerHTML = "✆" + i[0].telephone;
           textEmail.innerHTML = "&#128231;" + i[0].email;
@@ -100,7 +106,7 @@ class History extends Index {
           emailDiv.appendChild(textEmail);
           let objindex = this.activeContact.version.indexOf(i);
 
-          if (active) {
+          if (activeName && sameTele && sameEmail) {
             (div.className = "active"),
               this.setAttributes(div, {
                 value: `${objindex}`,
@@ -113,14 +119,15 @@ class History extends Index {
               value: `${objindex}`,
               data: `${this.activeContact.name}`
             });
+            
           }
         });
       }
     }
+ 
   }
 
   renderAddedandRemoved(data) {
-    console.log(data);
     this.bottomDiv = document.querySelector("#bottomDiv");
     this.bottomDiv.innerHTML = "";
     this.addedTeleDiv = document.createElement("div");
@@ -155,7 +162,9 @@ class History extends Index {
       if (i.id === data) {
         i.addedTelephone.map(i => {
           let addedTelephone = document.createElement("p");
+          let addedplusIcon = document.createElement("span");
           addedTelephone.innerHTML = "+ " + i;
+          addedTelephone.style.color="lightgreen"
           this.addedTeleDiv.append(addedTelephone);
         });
       }
@@ -163,7 +172,8 @@ class History extends Index {
       if (i.id === data) {
         i.removedTelephone.map(i => {
           let removedTelephone = document.createElement("p");
-          removedTelephone.innerHTML = "- " + i;
+          removedTelephone.innerHTML = "🗑" + i;
+          removedTelephone.style.color="red"
           this.removedTeleDiv.append(removedTelephone);
         });
       }
@@ -172,6 +182,7 @@ class History extends Index {
         i.addedEmail.map(i => {
           let addedEmail = document.createElement("p");
           addedEmail.innerHTML = "+ " + i;
+          addedEmail.style.color="lightgreen"
           this.addedEmailDiv.append(addedEmail);
         });
       }
@@ -179,7 +190,8 @@ class History extends Index {
       if (i.id === data) {
         i.removedEmails.map(i => {
           let removedEmail = document.createElement("p");
-          removedEmail.innerHTML = "- " + i;
+          removedEmail.innerHTML = "🗑" + i;
+          removedEmail.style.color="red"
           this.removedEmailDiv.append(removedEmail);
         });
       }

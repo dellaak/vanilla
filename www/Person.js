@@ -64,7 +64,7 @@ class Person extends Index {
 
     this.saveEditButton.innerHTML = "SPARA ÄNDRINGAR";
     this.addEmail.innerHTML = "+Lägg till email";
-    this.goBack.innerHTML = "<----";
+    this.goBack.innerHTML = "⇚Till start";
     this.addEmail.id = "addEmail";
     this.addTele.innerHTML = "+Lägg till nummer";
     this.addTele.id = "addTele";
@@ -95,6 +95,7 @@ class Person extends Index {
     this.bottomdiv.id = "bottomDiv";
 
     //STYLING
+    this.clickText.style.marginTop="40px"
     this.topPersonWrap.style.textAlign = "center";
     this.secondPersonWrap.style.display = "flex";
     this.secondPersonWrap.style.flexDirection = "row";
@@ -135,7 +136,11 @@ class Person extends Index {
     this.saveEditButton.style.height = "50px";
     this.editNameDiv.style.display = "flex";
     this.editNameDiv.style.flexDirection = "row";
-
+    this.goBack.style.fontSize="40px"
+    this.goBack.style.backgroundColor="#102d31"
+    this.goBack.style.padding="20px"
+    this.goBack.style.cursor="pointer"
+    this.goBack.style.borderRadius="9px"
     this.spans = [this.addEmail, this.addTele];
 
     for (let k of this.spans) {
@@ -163,6 +168,7 @@ class Person extends Index {
     // saveEditperson.telephone.splice(data,1)
     let a = saveEditperson.telephone.indexOf(data);
     saveEditperson.telephone.splice(a, 1);
+   
   }
 
   deleteEmail(data) {

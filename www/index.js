@@ -27,14 +27,10 @@ class Index {
     this.copyOfContacts = [...this.contacts];
   }
 
-  resetDom() {
-    let body = document.querySelector("body");
-    body.innerHTML = "";
-
-    this.createDom();
-  }
+ 
 
   createDom = () => {
+    this.copyOfContacts = [...this.contacts];
     let body = document.querySelector("body");
     this.bodyContainer = document.createElement("div");
     this.topWrap = document.createElement("div");
@@ -93,7 +89,7 @@ class Index {
 
     this.eventListners();
     this.setAttr();
-    this.contactClass = new Contacts(this.copyOfContacts);
+    new Contacts().renderContacts(this.copyOfContacts);
     new Style();
   };
 
@@ -157,6 +153,7 @@ class Index {
       }
 
       if (e.target.closest("#goBack")) {
+     
         this.resetDom();
       }
 
@@ -186,6 +183,11 @@ class Index {
           return;
         }
       }
+    
+      
+      if (e.target.closest(".deleteContact")) {
+       this.deleteContact(e.target.getAttribute('data'))
+      }
 
       if (e.target.closest(".deleteTele")) {
         new Person().deleteTele(e.target.getAttribute("data"));
@@ -208,6 +210,24 @@ class Index {
       }
     });
     this.eventon = true;
+  }
+
+
+  async deleteContact(data){
+   
+    let id;
+    this.contacts.map(i => {
+      if (i.id === data) return (id = this.contacts.indexOf(i));
+    });
+  
+
+    this.contacts.splice(id, 1);
+    this.copyOfContacts = [...this.contacts];
+    await this.contacts.save();
+
+    let contactwrap = document.querySelector("#contactWrapper");
+    contactwrap.outerHTML=""
+    new Contacts().renderContacts(this.copyOfContacts)
   }
 
   addTele(val) {
@@ -244,6 +264,8 @@ class Index {
     new Person().editName(name);
   }
 
+
+
   async saveActivePerson(data) {
     this.person = { ...data };
 
@@ -255,7 +277,6 @@ class Index {
     this.contacts.splice(id, 1);
     this.contacts.push(data);
     this.copyOfContacts = [...this.contacts];
-
     await this.contacts.save();
   }
 
@@ -276,24 +297,15 @@ class Index {
 
     await this.contacts.save();
     this.copyOfContacts = [...this.contacts];
+    new Person(this.person.id).createDomer()
+    new History().renderHistory(this.person.id)
+    new History().renderAddedandRemoved(this.person.id)
   }
 
 
-deleteFromStorage(data){
-  this.person = { ...data };
-
-  let id;
-  this.contacts.map(i => {
-    if (i.id === this.person.id) return (id = this.contacts.indexOf(i));
-  });
-
-  this.contacts.splice(id, 1);
-  this.copyOfContacts = [...this.contacts];
-console.log(this.copyOfContacts)
-  // await this.contacts.save();
-}
-
   async savePerson(name) {
+    let contactwrap = document.querySelector("#contactWrapper");
+    contactwrap.outerHTML=""
     let version = [
       { name: name, email: this.person.email, telephone: this.person.telephone }
     ];
@@ -324,6 +336,15 @@ console.log(this.copyOfContacts)
       version: []
     };
 
-    this.contactClass.renderContacts(this.copyOfContacts);
+    
+    new Contacts().renderContacts(this.copyOfContacts);
+  }
+
+
+
+  resetDom() {
+    let body = document.querySelector("body");
+    body.innerHTML = "";
+    this.createDom();
   }
 }

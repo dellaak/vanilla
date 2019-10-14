@@ -7,18 +7,19 @@ class Contacts extends Index {
     this.contactWrapper = document.createElement("div");
     this.contactWrapper.id = "contactWrapper";
 
-    this.renderContacts();
 
   }
 
 
 
-  renderContacts = async (newContacts) => {
+  async renderContacts(newContacts) {
+    console.log(newContacts)
     if(newContacts){
       this.contacts=newContacts
     }
 
-    
+  
+    this.contactWrapper.innerHTML=""
 
     this.bodyContainer.appendChild(this.contactWrapper);
     this.contactWrapper.innerHTML = "";
@@ -36,7 +37,7 @@ class Contacts extends Index {
       this.singleContact.style.backgroundColor = "#264e58";
       this.singleContact.style.height = "auto";
       this.singleContact.style.display = "flex";
-      this.singleContact.style.alignItems = "flex-start";
+      this.singleContact.style.alignItems = "center";
       this.singleContact.style.margin = "20px";
       this.singleContact.style.justifyContent = "space-between";
       this.singleContact.style.padding = "10px 50px";
@@ -57,7 +58,11 @@ class Contacts extends Index {
       this.contactEmailDiv.style.alignItems = "flex-start";
       //End Styling
       this.deleteButton.innerHTML='X'
-      this.deleteButton.setAttribute("class", i.id);
+      this.deleteButton.style.fontSize="30px"
+      this.deleteButton.style.color="red"
+      this.deleteButton.style.cursor="pointer"
+      this.deleteButton.className="deleteContact"
+      this.deleteButton.setAttribute("data", i.id);
       this.singleContact.setAttribute("id", i.id);
 
       this.ContactName.innerHTML = `👤` + "Namn: " + i.name;
