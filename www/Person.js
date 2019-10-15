@@ -134,6 +134,7 @@ class Person extends Index {
     editButtonStyle.style.cursor = "pointer";
     this.saveEditButton.style.width = "30vw";
     this.saveEditButton.style.height = "50px";
+    this.saveEditButton.style.backgroundColor = "white";
     this.editNameDiv.style.display = "flex";
     this.editNameDiv.style.flexDirection = "row";
     this.goBack.style.fontSize="40px"

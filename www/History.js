@@ -50,6 +50,15 @@ class History extends Index {
     this.nameUl=document.createElement("ul");
     this.ulTeleHistory = document.createElement("ul");
     this.ulEmailHistory = document.createElement("ul");
+    this.infoText = document.createElement('p')
+    this.infoText.innerHTML="Klicka på en kontakt för att göra den till primär. Är kontakten grå så är den aktiv! Du behöver inte spara.."
+    this.infoText.style.textAlign="center"
+    this.infoText.style.fontSize="20px"
+    this.infoText.style.fontStyle="italic"
+    this.infoText.style.color="white"
+    this.infoText.style.backgroundColor="#6e6659"
+    this.infoText.style.padding="20px"
+    this.contactWrap.appendChild(this.infoText)
 
     this.activeContact;
     for (let i of this.copyOfContacts) {

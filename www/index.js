@@ -94,14 +94,14 @@ class Index {
 
   setAttr() {
     //Placeholders
-    this.newContactInputName.placeholder = "Skriv in namn";
+    this.newContactInputName.placeholder = "Namn, Minst 2 tecken";
     this.newContactInputTelephone.placeholder =
-      "Skriv in telefonnr... minst 5 tecken";
-    this.newContactInputEmail.placeholder = "Skriv in email";
+      "Telefonnr... minst 5 tecken";
+    this.newContactInputEmail.placeholder = "Email.. Minst 5 tecken";
 
     //Innehtml
     this.h1Text.innerHTML = "Dellas Kontakter";
-    this.h3Text.innerHTML = "Skriv in uppgifter nedanför";
+    this.h3Text.innerHTML = "Klicka på + för att lägga till uppgifter";
     this.addButton.innerHTML = "Skapa kontakt";
     this.addButton.innerHTML = "Skapa kontakt";
     this.plusTele.innerHTML = "+";
