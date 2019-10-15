@@ -47,7 +47,9 @@ class History extends Index {
     this.contactWrap = document.querySelector("#contactWrapper");
     this.contactWrap.innerHTML=''
     this.oldNameDiv = document.querySelector("#nameDiv");
-    this.ul = document.createElement("ul");
+    this.nameUl=document.createElement("ul");
+    this.ulTeleHistory = document.createElement("ul");
+    this.ulEmailHistory = document.createElement("ul");
 
     this.activeContact;
     for (let i of this.copyOfContacts) {
@@ -62,13 +64,12 @@ class History extends Index {
           let nameDiv = document.createElement("div");
           let teleDiv = document.createElement("div");
           let emailDiv = document.createElement("div");
-          nameDiv.appendChild(this.ul);
-          teleDiv.appendChild(this.ul);
-          emailDiv.appendChild(this.ul);
+          nameDiv.appendChild(this.nameUl);
+          teleDiv.appendChild(this.ulTeleHistory);
+          emailDiv.appendChild(this.ulEmailHistory);
           let div = document.createElement("div");
           let textName = document.createElement("p");
-          let textTele = document.createElement("p");
-          let textEmail = document.createElement("p");
+
           let { name, telephone, email } = i[0];
 
 
@@ -88,9 +89,20 @@ class History extends Index {
 
        let activeName= i[0].name === this.activeContact.name
          
+       telephone.map(k=>{
+        this.telep = document.createElement("p");
+        this.telep.innerHTML = "✆ " + k;
+        teleDiv.appendChild(this.telep);
+       })
+
+
+       email.map(k=>{
+        this.emailp = document.createElement("p");
+        this.emailp.innerHTML = "&#128231;" + k;
+        emailDiv.appendChild(this.emailp);
+       })
+     
           textName.innerHTML = i[0].name;
-          textTele.innerHTML = "✆" + i[0].telephone;
-          textEmail.innerHTML = "&#128231;" + i[0].email;
           div.style.display = "flex";
           div.style.backgroundColor = "#89bdbb";
           div.style.flexWrap = "wrap";
@@ -104,8 +116,6 @@ class History extends Index {
           div.appendChild(teleDiv);
           div.appendChild(emailDiv);
           nameDiv.appendChild(textName);
-          teleDiv.appendChild(textTele);
-          emailDiv.appendChild(textEmail);
           let objindex = this.activeContact.version.indexOf(i);
 
           if (activeName && sameTele && sameEmail) {
