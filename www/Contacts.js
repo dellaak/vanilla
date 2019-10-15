@@ -1,11 +1,8 @@
 class Contacts extends Index {
-  constructor(contacts) {
+  constructor() {
     super();
-    this.contacts = contacts;
 
-    this.bodyContainer = document.querySelector("#bodycontainer");
-    this.contactWrapper = document.createElement("div");
-    this.contactWrapper.id = "contactWrapper";
+
 
 
   }
@@ -14,16 +11,15 @@ class Contacts extends Index {
 
   async renderContacts(newContacts) {
 
-    if(newContacts){
-      this.contacts=newContacts
-    }
-
-  
-    this.contactWrapper.innerHTML=""
+this.bodyContainer = document.querySelector("#bodycontainer");
+this.contactWrapper = document.createElement("div");
+this.contactWrapper.id = "contactWrapper";
+this.copyOfContacts=[...this.contacts]
 
     this.bodyContainer.appendChild(this.contactWrapper);
     this.contactWrapper.innerHTML = "";
-    this.contacts.reverse().map(i => {
+    this.copyOfContacts.reverse().map(i => {
+
       this.singleContact = document.createElement("section");
       this.contactTeleDiv = document.createElement("div");
       this.contactEmailDiv = document.createElement("div");

@@ -26,6 +26,7 @@ class Index {
 
     this.copyOfContacts = [...this.contacts];
   }
+  
 
   createDom = () => {
     this.copyOfContacts = [...this.contacts];
@@ -289,6 +290,7 @@ class Index {
     this.contacts.push(data);
     this.copyOfContacts = [...this.contacts];
     await this.contacts.save();
+    
   }
 
   async saveEditedPerson(data) {
@@ -306,9 +308,8 @@ class Index {
     this.contacts.splice(id, 1);
     this.contacts.push(data);
 
-    this.copyOfContacts = [...this.contacts];
     await this.contacts.save();
-
+    this.copyOfContacts = [...this.contacts];
     new Person(this.person.id).createDomer();
     new History().renderHistory(this.person.id);
     new History().renderAddedandRemoved(this.person.id);
@@ -357,4 +358,5 @@ class Index {
     this.copyOfContacts.reverse();
     this.copyOfContacts = [...this.contacts];
   }
+
 }
