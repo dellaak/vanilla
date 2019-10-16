@@ -64,10 +64,11 @@ class Person extends Index {
 
     this.saveEditButton.innerHTML = "SPARA ÄNDRINGAR";
     this.addEmail.innerHTML = "+Lägg till email";
-    this.goBack.innerHTML = "⇚Till start";
+    this.goBack.innerHTML = "⇚ Till start";
     this.addEmail.id = "addEmail";
     this.addTele.innerHTML = "+Lägg till nummer";
     this.addTele.id = "addTele";
+
 
     //APPEND
     this.formWrap.innerHTML = "";
@@ -134,10 +135,11 @@ class Person extends Index {
     editButtonStyle.style.cursor = "pointer";
     this.saveEditButton.style.width = "30vw";
     this.saveEditButton.style.height = "50px";
-    this.saveEditButton.style.backgroundColor = "white";
+    this.saveEditButton.style.margin="30px 0px"
+    this.saveEditButton.style.backgroundColor = "lightgreen";
     this.editNameDiv.style.display = "flex";
     this.editNameDiv.style.flexDirection = "row";
-    this.goBack.style.fontSize="40px"
+    this.goBack.style.fontSize="32px"
     this.goBack.style.backgroundColor="#102d31"
     this.goBack.style.padding="20px"
     this.goBack.style.cursor="pointer"
@@ -189,7 +191,8 @@ class Person extends Index {
 
     nameDiv.innerHTML = "";
     nameDiv.appendChild(this.editInputName);
-    this.editInputName.placeholder = "Redigera namn";
+    this.editInputName.value=saveEditperson.name
+    this.editInputName.placeholder = saveEditperson.name;
 
     // let name = document.querySelector('p')
     // name.innerHTML=`👤` + "Namn:"
@@ -252,7 +255,6 @@ class Person extends Index {
         saveEditperson.addedEmail.push(inputs.value);
       }
     }
-
 
    
     this.saveEditedPerson(saveEditperson);
