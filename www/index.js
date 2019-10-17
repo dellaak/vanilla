@@ -25,6 +25,7 @@ class Index {
     };
 
     this.copyOfContacts = [...this.contacts];
+   
   }
   
 
@@ -49,6 +50,10 @@ class Index {
     this.formDiv = document.createElement("div");
     this.resultDiv = document.createElement("div");
     this.nameText = document.createElement("p");
+    this.infoContact = document.createElement("p");
+
+    this.infoContact.style.textAlign="center"
+
 
     this.inputs = [
       this.newContactInputName,
@@ -64,6 +69,7 @@ class Index {
     this.topWrap.appendChild(this.resultDiv);
     this.formDiv.appendChild(this.h1Text);
     this.formDiv.appendChild(this.h3Text);
+    this.resultDiv.appendChild(this.infoContact)
 
     this.holders.map((i, k) => {
       let input = this.inputs[k];
@@ -92,11 +98,13 @@ class Index {
     new Style();
   };
 
+
+ 
+
   setAttr() {
     //Placeholders
     this.newContactInputName.placeholder = "Namn, Minst 2 tecken";
-    this.newContactInputTelephone.placeholder =
-      "Telefonnr... minst 5 tecken";
+    this.newContactInputTelephone.placeholder = "Telefonnr... minst 5 numer";
     this.newContactInputEmail.placeholder = "Email.. Minst 5 tecken";
 
     //Innehtml
@@ -107,6 +115,7 @@ class Index {
     this.plusTele.innerHTML = "+";
     this.plusEmail.innerHTML = "+";
     this.nameText.innerHTML = `👤` + "Namn:";
+    this.infoContact.innerHTML="Din sparad kontakt kommer se ut såhär"
 
     //IDS
     this.plusTele.id = "plusTele";
@@ -128,6 +137,8 @@ class Index {
 
     this.selectedPerson;
 
+  
+
     window.addEventListener("resize", function() {
       let div = document.querySelectorAll(".contactDiv");
       for (let i of div) {
@@ -140,6 +151,38 @@ class Index {
     });
 
     window.addEventListener("keyup", e => {
+      let button = document.querySelector("#saveEditButton")
+      let nameInput = document.querySelector("#inputName")
+      let inputTelephone = document.querySelector(".inputTelephone")
+      let inputEmail = document.querySelector(".inputEmail")
+
+
+      if(e.target.closest('.inputEmail')){
+        if (inputEmail.value.length<3) {
+          button.setAttribute('disabled','disabled')
+        }else{
+          button.removeAttribute('disabled')
+        }
+      }
+
+
+      if(e.target.closest('.inputTelephone')){
+      if (inputTelephone.value.length<3) {
+        button.setAttribute('disabled','disabled')
+      }else{
+        button.removeAttribute('disabled')
+      }
+    }
+
+    if(e.target.closest('.inputName')){
+      if (nameInput.value.length<2) {
+        button.setAttribute('disabled','disabled')
+      }else{
+        button.removeAttribute('disabled')
+      }
+    }
+      
+
       if (e.target.closest("#inputname")) {
         let val = this.newContactInputName.value;
         this.nameText.innerHTML = `👤` + "Namn: " + val;
@@ -151,6 +194,7 @@ class Index {
         let persondiv = e.target.closest(".contactDiv");
         if (persondiv.id) {
           this.selectedPerson = persondiv.id;
+        
           new Person(this.selectedPerson).createDomer();
           new History().renderHistory(this.selectedPerson);
           new History().renderAddedandRemoved(this.selectedPerson);
@@ -176,6 +220,8 @@ class Index {
         if (val.match(/^\d+$/) && val.length > 4) {
           this.addTele(val);
           this.newContactInputTelephone.value = "";
+        }else{
+          alert('Minst 5 nummer')
         }
       }
 
@@ -184,6 +230,8 @@ class Index {
         if (emailval.length > 4) {
           this.addEmail(emailval);
           this.newContactInputEmail.value = "";
+        }else{
+          alert('Minst 5 tecken')
         }
       }
 
@@ -226,6 +274,10 @@ class Index {
     this.eventon = true;
   }
 
+ 
+
+
+
   async deleteContact(data) {
     let id;
     this.contacts.map(i => {
@@ -242,6 +294,8 @@ class Index {
     contactwrap.outerHTML = "";
     new Contacts().renderContacts(this.copyOfContacts);
   }
+
+ 
 
   addTele(val) {
     this.person.telephone.push(val);
@@ -289,7 +343,10 @@ class Index {
     this.contacts.splice(id, 1);
     this.contacts.push(data);
     this.copyOfContacts = [...this.contacts];
-    await this.contacts.save();
+    await this.contacts.save()
+    new Person(this.person.id).createDomer()
+    new History().renderHistory(this.person.id);
+    new History().renderAddedandRemoved(this.person.id);
     
   }
 

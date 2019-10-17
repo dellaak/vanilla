@@ -1,5 +1,6 @@
 let saveEditperson;
 
+
 class Person extends Index {
   constructor(person) {
     super();
@@ -8,6 +9,7 @@ class Person extends Index {
     for (let i of this.contacts) {
       if (person === i.id) saveEditperson = i;
     }
+
   }
 
   createDomer() {
@@ -27,7 +29,8 @@ class Person extends Index {
     this.ullistEmail = document.createElement("ul");
     this.lowerEditBox = document.createElement("div");
     this.editNameButton = document.createElement("div");
-    this.saveEditButton = document.createElement("button");
+    this.saveEditButton = document.createElement("button")
+    this.saveEditButton.setAttribute('disabled', 'disabled')
     this.addTelephone = document.createElement("span");
     this.addEmail = document.createElement("span");
     this.addTele = document.createElement("span");
@@ -171,7 +174,8 @@ class Person extends Index {
     // saveEditperson.telephone.splice(data,1)
     let a = saveEditperson.telephone.indexOf(data);
     saveEditperson.telephone.splice(a, 1);
-   
+    let button = document.querySelector("#saveEditButton")
+    button.removeAttribute('disabled')
   }
 
   deleteEmail(data) {
@@ -180,15 +184,18 @@ class Person extends Index {
     saveEditperson.removedEmails.push(data);
     let a = saveEditperson.email.indexOf(data);
     saveEditperson.email.splice(a, 1);
+    let button = document.querySelector("#saveEditButton")
+    button.removeAttribute('disabled')
   }
 
-  editName(name) {
+  editName() {
     let nameDiv = document.querySelector("#nameDiv");
     this.editInputName = document.createElement("input");
     this.editInputName.setAttribute("id", "inputName");
     this.editInputTelephone = document.createElement("input");
     this.editInputEmail = document.createElement("input");
-
+    let button = document.querySelector("#saveEditButton")
+    button.removeAttribute('disabled')
     nameDiv.innerHTML = "";
     nameDiv.appendChild(this.editInputName);
     this.editInputName.value=saveEditperson.name
@@ -213,6 +220,7 @@ class Person extends Index {
     this.editInputTelephone.style.fontSize = "14px";
     teleDiv.appendChild(this.editInputTelephone);
     this.editInputTelephone.placeholder = "Skriv telefonnummer";
+ 
   }
 
   addInputFieldEmail() {
@@ -230,6 +238,7 @@ class Person extends Index {
     this.editInputEmail.style.fontSize = "14px";
     emailDiv.appendChild(this.editInputEmail);
     this.editInputEmail.placeholder = "Skriv Email";
+
   }
 
   saveEditFields(data) {
@@ -237,14 +246,18 @@ class Person extends Index {
     for (let i of this.contacts) {
       if (data === i.id) this.editThisPerson = i;
     }
-
+ 
     let selected = document.querySelectorAll("input");
     for (let inputs of selected) {
       if (inputs.id === "inputName") {
-        if (inputs.value !== saveEditperson.name && inputs.value.length > 2) {
+        if (inputs.value !== saveEditperson.name && inputs.value.length > 1) {
           saveEditperson.oldNames.push(saveEditperson.name);
+          saveEditperson.name = inputs.value;
+        }else{
+        
+return;
         }
-        saveEditperson.name = inputs.value;
+
       }
       if (inputs.className === "inputTelephone" && inputs.value.length > 2) {
         saveEditperson.telephone.push(inputs.value);
@@ -256,7 +269,6 @@ class Person extends Index {
       }
     }
 
-   
     this.saveEditedPerson(saveEditperson);
     new History().renderHistory(saveEditperson.id);
    
