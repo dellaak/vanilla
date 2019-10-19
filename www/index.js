@@ -25,6 +25,8 @@ class Index {
     };
 
     this.copyOfContacts = [...this.contacts];
+
+ 
    
   }
   
@@ -34,6 +36,7 @@ class Index {
     let body = document.querySelector("body");
     this.bodyContainer = document.createElement("div");
     this.topWrap = document.createElement("div");
+    let infoTextHolder = document.createElement("div");
     let inputHolder = document.createElement("div");
     let inputHolderTele = document.createElement("div");
     let inputHolderEmail = document.createElement("div");
@@ -50,9 +53,6 @@ class Index {
     this.formDiv = document.createElement("div");
     this.resultDiv = document.createElement("div");
     this.nameText = document.createElement("p");
-    this.infoContact = document.createElement("p");
-
-    this.infoContact.style.textAlign="center"
 
 
     this.inputs = [
@@ -69,7 +69,7 @@ class Index {
     this.topWrap.appendChild(this.resultDiv);
     this.formDiv.appendChild(this.h1Text);
     this.formDiv.appendChild(this.h3Text);
-    this.resultDiv.appendChild(this.infoContact)
+   
 
     this.holders.map((i, k) => {
       let input = this.inputs[k];
@@ -111,11 +111,11 @@ class Index {
     this.h1Text.innerHTML = "Dellas Kontakter";
     this.h3Text.innerHTML = "Klicka på + för att lägga till uppgifter";
     this.addButton.innerHTML = "Skapa kontakt";
-    this.addButton.innerHTML = "Skapa kontakt";
+    this.addButton.setAttribute('disabled','disabled')
     this.plusTele.innerHTML = "+";
     this.plusEmail.innerHTML = "+";
     this.nameText.innerHTML = `👤` + "Namn:";
-    this.infoContact.innerHTML="Din sparad kontakt kommer se ut såhär"
+    
 
     //IDS
     this.plusTele.id = "plusTele";
@@ -137,6 +137,7 @@ class Index {
 
     this.selectedPerson;
 
+  
   
 
     window.addEventListener("resize", function() {
@@ -186,15 +187,21 @@ class Index {
       if (e.target.closest("#inputname")) {
         let val = this.newContactInputName.value;
         this.nameText.innerHTML = `👤` + "Namn: " + val;
+        if(val.length<2){
+          this.addButton.setAttribute('disabled','disabled')
+        }else{
+          this.addButton.removeAttribute('disabled','disabled')
+        }
       }
-    });
+      
+    })
 
     window.addEventListener("click", e => {
       if (e.target.closest(".contactDiv")) {
         let persondiv = e.target.closest(".contactDiv");
         if (persondiv.id) {
           this.selectedPerson = persondiv.id;
-        
+          window.history.pushState('','', '/person/'+this.selectedPerson)
           new Person(this.selectedPerson).createDomer();
           new History().renderHistory(this.selectedPerson);
           new History().renderAddedandRemoved(this.selectedPerson);
@@ -212,6 +219,7 @@ class Index {
       }
 
       if (e.target.closest("#goBack")) {
+        window.history.pushState('','', '/')
         this.resetDom();
       }
 
@@ -237,9 +245,23 @@ class Index {
 
       if (e.target.closest("button")) {
         let name = this.newContactInputName.value;
+        let teleInput= this.newContactInputTelephone.value
+        let emailInput = this.newContactInputEmail.value
+
+       
+        if (teleInput.length > 5) {
+          this.person.telephone.push(teleInput)
+          this.person.addedTelephone.push(teleInput)
+       
+        }
+        if (emailInput.length > 5) {
+          this.person.email.push(emailInput)
+          this.person.addedEmail.push(emailInput)
+        }
         if (name.length > 2) {
           this.savePerson(name);
         }
+
         if (e.target.closest("#saveEditButton")) {
           new Person().saveEditFields(this.selectedPerson);
           return;
@@ -378,6 +400,8 @@ class Index {
     let version = [
       { name: name, email: this.person.email, telephone: this.person.telephone }
     ];
+
+  
     this.person.name = name;
     this.person.id = name;
     this.person.version.push(version);

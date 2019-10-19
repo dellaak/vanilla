@@ -11,13 +11,28 @@ class Contacts extends Index {
 
   async renderContacts(newContacts) {
 
-this.bodyContainer = document.querySelector("#bodycontainer");
-this.contactWrapper = document.createElement("div");
-this.contactWrapper.id = "contactWrapper";
-this.copyOfContacts=[...this.contacts]
+    this.bodyContainer = document.querySelector("#bodycontainer");
+    this.contactWrapper = document.createElement("div");
+    this.infoText2 = document.createElement("p");
+    this.infoText2.innerHTML = "Klicka på en kontakt för att redigera"
+    this.contactWrapper.append(this.infoText2)
+
+
+
+    this.contactWrapper.id = "contactWrapper";
+    this.copyOfContacts = [...this.contacts]
 
     this.bodyContainer.appendChild(this.contactWrapper);
     this.contactWrapper.innerHTML = "";
+    this.infoText2 = document.createElement("p");
+    this.infoText2.innerHTML = "Klicka på en kontakt för att redigera"
+    this.infoText2.style.textAlign="center"
+    this.infoText2.style.fontSize="20px"
+    this.infoText2.style.fontStyle="italic"
+    if(this.copyOfContacts.length>0){
+      this.contactWrapper.append(this.infoText2)
+    }
+
     this.copyOfContacts.reverse().map(i => {
 
       this.singleContact = document.createElement("section");
@@ -27,6 +42,7 @@ this.copyOfContacts=[...this.contacts]
       this.ContactTelephone = document.createElement("p");
       this.ContactEmail = document.createElement("p");
       this.deleteButton = document.createElement("div");
+
 
       //Styling contactDiv
       this.singleContact.className = "contactDiv";
@@ -42,30 +58,30 @@ this.copyOfContacts=[...this.contacts]
       this.singleContact.style.textTransform = "uppercase";
       this.singleContact.style.letterSpacing = ".1em";
       this.singleContact.style.fontSize = "14px";
-      this.singleContact.style.flexDirection="row" 
+      this.singleContact.style.flexDirection = "row"
 
-   
-    
+
+
 
       this.contactTeleDiv.style.display = "flex";
-      this.contactTeleDiv.style.flex="1";
+      this.contactTeleDiv.style.flex = "1";
       this.contactTeleDiv.style.flexDirection = "column";
       this.contactTeleDiv.style.alignItems = "flex-start";
       this.contactTeleDiv.style.Width = "100px";
 
       this.contactEmailDiv.style.display = "flex";
-      this.contactEmailDiv.style.flex="1";
+      this.contactEmailDiv.style.flex = "1";
       this.contactEmailDiv.style.Width = "100px";
       this.contactEmailDiv.style.flexDirection = "column";
       this.contactEmailDiv.style.alignItems = "flex-start";
 
-      this.ContactName.style.flex="1";
+      this.ContactName.style.flex = "1";
       //End Styling
-      this.deleteButton.innerHTML='X'
-      this.deleteButton.style.fontSize="30px"
-      this.deleteButton.style.color="red"
-      this.deleteButton.style.cursor="pointer"
-      this.deleteButton.className="deleteContact"
+      this.deleteButton.innerHTML = 'X'
+      this.deleteButton.style.fontSize = "30px"
+      this.deleteButton.style.color = "red"
+      this.deleteButton.style.cursor = "pointer"
+      this.deleteButton.className = "deleteContact"
       this.deleteButton.setAttribute("data", i.id);
       this.singleContact.setAttribute("id", i.id);
 
@@ -98,8 +114,8 @@ this.copyOfContacts=[...this.contacts]
       this.contactEmailDiv.appendChild(this.ContactEmail);
       this.singleContact.appendChild(this.deleteButton);
     });
-   
-    
+
+
   };
 
 
