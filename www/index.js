@@ -269,6 +269,7 @@ class Index {
       }
 
       if (e.target.closest(".deleteContact")) {
+        window.history.pushState('','', '/')
         this.deleteContact(e.target.getAttribute("data"));
         this.resetDom();
       }

@@ -111,7 +111,7 @@ class History extends Index {
         emailDiv.appendChild(this.emailp);
        })
      
-          textName.innerHTML = i[0].name;
+          textName.innerHTML = `👤`+ i[0].name;
           div.style.display = "flex";
           div.style.backgroundColor = "#89bdbb";
           div.style.flexWrap = "wrap";

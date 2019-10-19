@@ -24,7 +24,7 @@ styling(){
   h1Style.style.letterSpacing = ".1em"
   
   let h3Style = document.querySelector("h3");
-  h3Style.style.color = "#6e6659"
+  h3Style.style.color = "#000"
   h3Style.style.textShadow = "0.07em 0.07em 0 rgba(0,0,0,.1)"
   h3Style.style.textTransform = "uppercase"
   h3Style.style.letterSpacing = ".1em"

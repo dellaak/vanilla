@@ -201,8 +201,7 @@ class Person extends Index {
     this.editInputName.value=saveEditperson.name
     this.editInputName.placeholder = saveEditperson.name;
 
-    // let name = document.querySelector('p')
-    // name.innerHTML=`👤` + "Namn:"
+   
   }
 
   addInputFieldTele() {
